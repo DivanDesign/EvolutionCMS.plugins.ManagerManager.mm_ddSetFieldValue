@@ -19,7 +19,7 @@
  */
 
 function mm_ddSetFieldValue($field, $value = '', $roles = '', $templates = ''){
-	global $modx, $content, $mm_fields;
+	global $modx, $mm_current_page, $mm_fields;
 	$e = &$modx->Event;
 	
 	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)){
@@ -198,16 +198,7 @@ function mm_ddSetFieldValue($field, $value = '', $roles = '', $templates = ''){
 			
 			//TV
 			default:
-				// Which template is this page using?
-				if (isset($content['template'])){
-					$page_template = $content['template'];
-				}else{
-					// If no content is set, it's likely we're adding a new page at top level.
-					// So use the site default template. This may need some work as it might interfere with a default template set by MM?
-					$page_template = $modx->config['default_template'];
-				}
-				
-				$tvsMas = tplUseTvs($page_template, $field);
+				$tvsMas = tplUseTvs($mm_current_page['template'], $field);
 				
 				if ($tvsMas){
 					$output .= '$j("#tv'.$tvsMas[0]['id'].'").val("'.$value.'");' . "\n";
