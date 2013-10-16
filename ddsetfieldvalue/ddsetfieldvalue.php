@@ -1,7 +1,7 @@
 <?php
 /** 
  * ddSetFieldValue
- * @version 1.0.4 (2013-02-22)
+ * @version 1.0.5 (2013-10-16)
  * 
  * Widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
  * 
@@ -12,7 +12,7 @@
  * @param roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
  * @param templates {comma separated string} - Id of the templates to which this widget is applied. Default: ''.
  * 
- * @link http://code.divandesign.biz/modx/mm_ddsetfieldvalue/1.0.4
+ * @link http://code.divandesign.biz/modx/mm_ddsetfieldvalue/1.0.5
  * 
  * @copyright 2013, DivanDesign
  * http://www.DivanDesign.biz
@@ -209,6 +209,6 @@ function mm_ddSetFieldValue($field, $value = '', $roles = '', $templates = ''){
 		$output .= "\n// ---------------- mm_ddSetFieldValue :: End -------------";
 		
 		$e->output($output . "\n");
-	} 
+	}
 }
 ?>
