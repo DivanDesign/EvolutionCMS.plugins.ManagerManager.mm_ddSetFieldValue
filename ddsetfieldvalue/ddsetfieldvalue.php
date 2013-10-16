@@ -124,7 +124,7 @@ function mm_ddSetFieldValue($field, $value = '', $roles = '', $templates = ''){
 
 				$output .= '$j("input[name=syncsite]").val("'.$value.'"); '."\n";
 			break;
-
+			
 			//Признак папки
 			case 'is_folder':
 				if ($value == '1'){
@@ -134,7 +134,19 @@ function mm_ddSetFieldValue($field, $value = '', $roles = '', $templates = ''){
 					$output .= '$j("input[name=isfoldercheck]").removeAttr("checked"); '."\n";
 				}
 			break;
-
+			
+			//Участвует в URL
+			case 'alias_visible':
+				if ($value == '1'){
+					$output .= '$j("input[name=alias_visible_check]").attr("checked", "checked"); '."\n";
+				}else{
+					$value = '0';
+					$output .= '$j("input[name=alias_visible_check]").removeAttr("checked"); '."\n";
+				}
+				
+				$output .= '$j("input[name=alias_visible]").val("'.$value.'"); '."\n";
+			break;
+			
 			//Признак использованшия визуального редактора
 			case 'is_richtext':
 				$output .= 'var originalRichtextValue = $j("#which_editor:first").val(); '."\n";
