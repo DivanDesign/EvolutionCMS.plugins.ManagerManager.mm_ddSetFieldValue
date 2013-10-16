@@ -19,7 +19,7 @@
  */
 
 function mm_ddSetFieldValue($field, $value = '', $roles = '', $templates = ''){
-	global $modx, $mm_current_page, $mm_fields;
+	global $modx, $mm_current_page;
 	$e = &$modx->Event;
 	
 	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)){
