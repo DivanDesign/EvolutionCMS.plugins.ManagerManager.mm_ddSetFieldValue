@@ -6,12 +6,13 @@
  * @desc A widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
  * 
  * @uses PHP >= 5.4.
- * @uses MODXEvo.plugin.ManagerManager >= 0.6.1.
+ * @uses MODXEvo.plugin.ManagerManager >= 0.7.
  * 
- * @param $fields {string_commaSeparated} — The name(s) of the document fields (or TVs) for which value setting is required. @required
- * @param $value {string} — Required value. Default: ''.
- * @param $roles {string_commaSeparated} — The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
- * @param $templates {string_commaSeparated} — Id of the templates to which this widget is applied. Default: ''.
+ * @param $params {array_associative|stdClass} — The object of params. @required
+ * @param $params['fields'] {string_commaSeparated} — The name(s) of the document fields (or TVs) for which value setting is required. @required
+ * @param $params['value'] {string} — Required value. Default: ''.
+ * @param $params['roles'] {string_commaSeparated} — The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
+ * @param $params['templates'] {string_commaSeparated} — Id of the templates to which this widget is applied. Default: ''.
  * 
  * @event OnDocFormRender
  * 
@@ -20,18 +21,38 @@
  * @copyright 2012–2014 DivanDesign {@link http://www.DivanDesign.biz }
  */
 
-function mm_ddSetFieldValue(
-	$fields,
-	$value = '',
-	$roles = '',
-	$templates = ''
-){
+function mm_ddSetFieldValue($params){
+	//For backward compatibility
+	if (
+		!is_array($params) &&
+		!is_object($params)
+	){
+		//Convert ordered list of params to named
+		$params = ddTools::orderedParamsToNamed([
+			'paramsList' => func_get_args(),
+			'compliance' => [
+				'fields',
+				'value',
+				'roles',
+				'templates'
+			]
+		]);
+	}
+	
+	//Defaults
+	$params = (object) array_merge([
+// 		'fields' => '',
+		'value' => '',
+		'roles' => '',
+		'templates' => ''
+	], (array) $params);
+	
 	global $modx;
 	$e = &$modx->Event;
 	
 	if (
 		$e->name == 'OnDocFormRender' &&
-		useThisRule($roles, $templates)
+		useThisRule($params->roles, $params->templates)
 	){
 		$output = '//---------- mm_ddSetFieldValue :: Begin -----'.PHP_EOL;
 		
@@ -50,14 +71,14 @@ function mm_ddSetFieldValue(
 			break;
 		}
 		
-		$fields = getTplMatchedFields($fields);
-		if ($fields == false){return;}
+		$params->fields = getTplMatchedFields($params->fields);
+		if ($params->fields == false){return;}
 		
-		foreach ($fields as $field){
+		foreach ($params->fields as $field){
 			//Результирующее значение для выставления через $.fn.val
-			$setValue = $value;
+			$setValue = $params->value;
 			//Значение для чекбоксов
-			$checkValue = (bool)$value;
+			$checkValue = (bool)$params->value;
 			
 			//Селектор для выставления через $.fn.val
 			$setElem = '$j.ddMM.fields.'.$field.'.$elem';
