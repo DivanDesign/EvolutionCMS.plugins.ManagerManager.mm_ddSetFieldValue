@@ -1,7 +1,7 @@
 <?php
 /** 
  * ddSetFieldValue
- * @version 1.1 (2014-03-27)
+ * @version 1.2 (2016-11-21)
  * 
  * @desc A widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
  * 
@@ -16,9 +16,9 @@
  * 
  * @event OnDocFormRender
  * 
- * @link http://code.divandesign.biz/modx/mm_ddsetfieldvalue/1.1
+ * @link http://code.divandesign.biz/modx/mm_ddsetfieldvalue/1.2
  * 
- * @copyright 2012–2014 DivanDesign {@link http://www.DivanDesign.biz }
+ * @copyright 2012–2016 DivanDesign {@link http://www.DivanDesign.biz }
  */
 
 function mm_ddSetFieldValue($params){
