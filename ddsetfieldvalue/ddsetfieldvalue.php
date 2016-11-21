@@ -32,8 +32,6 @@ function mm_ddSetFieldValue(
 		$e->name == 'OnDocFormRender' &&
 		useThisRule($roles, $templates)
 	){
-		global $mm_fields;
-		
 		$output = '//---------- mm_ddSetFieldValue :: Begin -----'.PHP_EOL;
 		
 		//Подбираем правильный формат даты в соответствии с конфигурацией
@@ -59,9 +57,9 @@ function mm_ddSetFieldValue(
 			$checkValue = (bool)$value;
 			
 			//Селектор для выставления через $.fn.val
-			$setSelector = $mm_fields[$field]['fieldtype'].'[name=\''.$mm_fields[$field]['fieldname'].'\']';
+			$setElem = '$j.ddMM.fields.'.$field.'.$elem';
 			//Селектор для чекбоксов
-			$checkSelector = false;
+			$checkElem = false;
 			
 			//Некоторые поля документа требуют дополнительной обработки
 			switch ($field){
@@ -80,8 +78,8 @@ function mm_ddSetFieldValue(
 				
 				//Признак папки
 				case 'is_folder':
-					$checkSelector = $setSelector;
-					$setSelector = false;
+					$checkElem = $setElem;
+					$setElem = false;
 				break;
 				
 				//Чекбоксы с прямой логикой
@@ -100,13 +98,13 @@ function mm_ddSetFieldValue(
 						$setValue = '0';
 					}
 					
-					$checkSelector = $setSelector;
+					$checkElem = $setElem;
 					
 					//Не очень красиво if внутри case, ровно так же, как и 'clear_cache' == 'syncsite', что поделать
 					if ($field == 'clear_cache'){
-						$setSelector = 'input[name=\'syncsite\']';
+						$setElem = '$j("input[name=\'syncsite\']")';
 					}else{
-						$setSelector = 'input[name=\''.$field.'\']';
+						$setElem = '$j("input[name=\''.$field.'\']")';
 					}
 				break;
 				
@@ -115,8 +113,8 @@ function mm_ddSetFieldValue(
 					// Note these are reversed from what you'd think
 					$setValue = ($setValue == '1') ? '0' : '1';
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'hidemenu\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'hidemenu\']")';
 				break;
 				
 				//Признак скрытия из меню (аналогично show_in_menu, только наоборот)
@@ -127,8 +125,8 @@ function mm_ddSetFieldValue(
 					
 					$checkValue = !$checkValue;
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'hidemenu\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'hidemenu\']")';
 				break;
 				
 				//Признак использованшия визуального редактора
@@ -147,8 +145,8 @@ function mm_ddSetFieldValue(
 						$output .= PHP_EOL;
 					}
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'richtext\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'richtext\']")';
 				break;
 				
 				//Признак логирования
@@ -157,23 +155,23 @@ function mm_ddSetFieldValue(
 					$setValue = ($setValue == '1') ? '0' : '1';
 					$checkValue = !$checkValue;
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'donthit\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'donthit\']")';
 				break;
 			}
 			
 			//Если это чекбокс
-			if ($checkSelector !== false){
+			if ($checkElem !== false){
 				if ($checkValue){
-					$output .= '$j("'.$checkSelector.'").attr("checked", "checked");'.PHP_EOL;
+					$output .= $checkElem.'.attr("checked", "checked");'.PHP_EOL;
 				}else{
-					$output .= '$j("'.$checkSelector.'").removeAttr("checked");'.PHP_EOL;
+					$output .= $checkElem.'.removeAttr("checked");'.PHP_EOL;
 				}
 			}
 			
 			//Если нужно задавать значение
-			if ($setSelector !== false){
-				$output .= '$j("'.$setSelector.'").val("'.$setValue.'");'.PHP_EOL;
+			if ($setElem !== false){
+				$output .= $setElem.'.val("'.$setValue.'");'.PHP_EOL;
 			}
 		}
 		
