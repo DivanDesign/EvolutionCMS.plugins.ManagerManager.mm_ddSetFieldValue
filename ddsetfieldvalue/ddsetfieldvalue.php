@@ -5,6 +5,7 @@
  * 
  * @desc A widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
  * 
+ * @uses PHP >= 5.4.
  * @uses MODXEvo.plugin.ManagerManager >= 0.6.1.
  * 
  * @param $fields {string_commaSeparated} — The name(s) of the document fields (or TVs) for which value setting is required. @required
@@ -34,16 +35,18 @@ function mm_ddSetFieldValue(
 	){
 		$output = '//---------- mm_ddSetFieldValue :: Begin -----'.PHP_EOL;
 		
+		$dateFormat = '';
+		
 		//Подбираем правильный формат даты в соответствии с конфигурацией
 		switch($modx->config['datetime_format']){
 			case 'dd-mm-YYYY':
-				$date_format = 'd-m-Y';
+				$dateFormat = 'd-m-Y';
 			break;
 			case 'mm/dd/YYYY':
-				$date_format = 'm/d/Y';
+				$dateFormat = 'm/d/Y';
 			break;
 			case 'YYYY/mm/dd':
-				$date_format = 'Y/m/d';
+				$dateFormat = 'Y/m/d';
 			break;
 		}
 		
@@ -67,13 +70,13 @@ function mm_ddSetFieldValue(
 				case 'pub_date':
 				//Дата отмены публикации
 				case 'unpub_date':
-					$setValue = ($setValue == '') ? jsSafe(date($date_format.' H:i:s')) : jsSafe($setValue);
+					$setValue = ($setValue == '') ? jsSafe(date($dateFormat.' H:i:s')) : jsSafe($setValue);
 				break;
 				
 				//Аттрибуты ссылки
 				case 'link_attributes':
 					//Обработаем кавычки
-					$setValue = str_replace(array("'", '"'), '\"', $setValue);
+					$setValue = str_replace(["'", '"'], '\"', $setValue);
 				break;
 				
 				//Признак папки
