@@ -51,10 +51,8 @@ function mm_ddSetFieldValue($params){
 	
 	global $modx;
 	
-	$e = &$modx->Event;
-	
 	if (
-		$e->name == 'OnDocFormRender' &&
+		$modx->Event->name == 'OnDocFormRender' &&
 		useThisRule(
 			$params->roles,
 			$params->templates
@@ -233,7 +231,7 @@ function mm_ddSetFieldValue($params){
 		
 		$output .= '//---------- mm_ddSetFieldValue :: End -----' . PHP_EOL;
 		
-		$e->output($output);
+		$modx->Event->output($output);
 	}
 }
 ?>
