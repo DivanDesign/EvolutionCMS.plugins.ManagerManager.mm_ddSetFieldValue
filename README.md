@@ -13,4 +13,4 @@ A widget for ManagerManager plugin allowing ducument fields values (or TV fields
 ## [Home page →](https://code.divandesign.biz/modx/mm_ddsetfieldvalue)
 
 
-<link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />
+<link rel="stylesheet" type="text/css" href="https://raw.githack.com/DivanDesign/CSS.ddMarkdown/master/style.min.css" />
