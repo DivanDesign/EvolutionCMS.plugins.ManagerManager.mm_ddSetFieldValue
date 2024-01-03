@@ -37,15 +37,17 @@ function mm_ddSetFieldValue($params){
 	}
 	
 	//Defaults
-	$params = (object) array_merge(
-		[
-// 			'fields' => '',
-			'value' => '',
-			'roles' => '',
-			'templates' => ''
-		],
-		(array) $params
-	);
+	$params = \DDTools\ObjectTools::extend([
+		'objects' => [
+			(object) [
+// 				'fields' => '',
+				'value' => '',
+				'roles' => '',
+				'templates' => ''
+			],
+			$params
+		]
+	]);
 	
 	global $modx;
 	
@@ -104,7 +106,7 @@ function mm_ddSetFieldValue($params){
 				case 'unpub_date':
 					$setValue =
 						$setValue == '' ?
-						jsSafe(date($dateFormat.' H:i:s')) :
+						jsSafe(date($dateFormat . ' H:i:s')) :
 						jsSafe($setValue)
 					;
 				break;
