@@ -7,10 +7,10 @@ A widget for ManagerManager plugin allowing ducument fields values (or TV fields
 
 * PHP >= 5.4
 * [(MODX)EvolutionCMS](https://github.com/evolution-cms/evolution) >= 1.1
-* [(MODX)EvolutionCMS.plugins.ManagerManager](https://code.divandesign.biz/modx/managermanager) >= 0.7
+* [(MODX)EvolutionCMS.plugins.ManagerManager](https://code.divandesign.ru/modx/managermanager) >= 0.7
 
 
-## [Home page →](https://code.divandesign.biz/modx/mm_ddsetfieldvalue)
+## [Home page →](https://code.divandesign.ru/modx/mm_ddsetfieldvalue)
 
 
 <link rel="stylesheet" type="text/css" href="https://raw.githack.com/DivanDesign/CSS.ddMarkdown/master/style.min.css" />

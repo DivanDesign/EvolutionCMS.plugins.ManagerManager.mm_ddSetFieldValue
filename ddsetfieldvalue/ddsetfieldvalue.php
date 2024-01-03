@@ -13,9 +13,9 @@
  * 
  * @event OnDocFormRender
  * 
- * @link https://code.divandesign.biz/modx/mm_ddsetfieldvalue
+ * @link https://code.divandesign.ru/modx/mm_ddsetfieldvalue
  * 
- * @copyright 2012–2016 DivanDesign {@link http://www.DivanDesign.biz }
+ * @copyright 2012–2016 Ronef {@link https://Ronef.ru }
  */
 
 function mm_ddSetFieldValue($params){
