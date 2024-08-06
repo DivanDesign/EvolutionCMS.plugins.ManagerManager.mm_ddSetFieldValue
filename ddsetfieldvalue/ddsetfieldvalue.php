@@ -19,12 +19,12 @@
  */
 
 function mm_ddSetFieldValue($params){
-	//For backward compatibility
+	// For backward compatibility
 	if (
 		!is_array($params) &&
 		!is_object($params)
 	){
-		//Convert ordered list of params to named
+		// Convert ordered list of params to named
 		$params = ddTools::orderedParamsToNamed([
 			'paramsList' => func_get_args(),
 			'compliance' => [
@@ -36,7 +36,7 @@ function mm_ddSetFieldValue($params){
 		]);
 	}
 	
-	//Defaults
+	// Defaults
 	$params = \DDTools\ObjectTools::extend([
 		'objects' => [
 			(object) [
@@ -58,11 +58,11 @@ function mm_ddSetFieldValue($params){
 			$params->templates
 		)
 	){
-		$output = '//---------- mm_ddSetFieldValue :: Begin -----' . PHP_EOL;
+		$output = '// ---------- mm_ddSetFieldValue :: Begin -----' . PHP_EOL;
 		
 		$dateFormat = '';
 		
-		//Подбираем правильный формат даты в соответствии с конфигурацией
+		// Подбираем правильный формат даты в соответствии с конфигурацией
 		switch($modx->config['datetime_format']){
 			case 'dd-mm-YYYY':
 				$dateFormat = 'd-m-Y';
@@ -86,21 +86,21 @@ function mm_ddSetFieldValue($params){
 			$params->fields as
 			$field
 		){
-			//Результирующее значение для выставления через $.fn.val
+			// Результирующее значение для выставления через $.fn.val
 			$setValue = $params->value;
-			//Значение для чекбоксов
+			// Значение для чекбоксов
 			$checkValue = (bool) $params->value;
 			
-			//Селектор для выставления через $.fn.val
+			// Селектор для выставления через $.fn.val
 			$setElem = '$j.ddMM.fields.' . $field . '.$elem';
-			//Селектор для чекбоксов
+			// Селектор для чекбоксов
 			$checkElem = false;
 			
-			//Некоторые поля документа требуют дополнительной обработки
+			// Некоторые поля документа требуют дополнительной обработки
 			switch ($field){
-				//Дата публикации
+				// Дата публикации
 				case 'pub_date':
-				//Дата отмены публикации
+				// Дата отмены публикации
 				case 'unpub_date':
 					$setValue =
 						$setValue == '' ?
@@ -109,9 +109,9 @@ function mm_ddSetFieldValue($params){
 					;
 				break;
 				
-				//Аттрибуты ссылки
+				// Аттрибуты ссылки
 				case 'link_attributes':
-					//Обработаем кавычки
+					// Обработаем кавычки
 					$setValue = str_replace(
 						[
 							"'",
@@ -122,31 +122,31 @@ function mm_ddSetFieldValue($params){
 					);
 				break;
 				
-				//Признак папки
+				// Признак папки
 				case 'is_folder':
 					$checkElem = $setElem;
 					$setElem = false;
 				break;
 				
-				//Чекбоксы с прямой логикой
-				//Признак публикации
+				// Чекбоксы с прямой логикой
+				// Признак публикации
 				case 'published':
-				//Признак доступности для поиска
+				// Признак доступности для поиска
 				case 'searchable':
-				//Признак кэширования
+				// Признак кэширования
 				case 'cacheable':
-				//Признак очистки кэша
+				// Признак очистки кэша
 				case 'clear_cache':
-				//Участвует в URL
+				// Участвует в URL
 				case 'alias_visible':
-					//Если не 1, значит 0, другого не быть не может
+					// Если не 1, значит 0, другого не быть не может
 					if ($setValue != '1'){
 						$setValue = '0';
 					}
 					
 					$checkElem = $setElem;
 					
-					//Не очень красиво if внутри case, ровно так же, как и 'clear_cache' == 'syncsite', что поделать
+					// Не очень красиво if внутри case, ровно так же, как и 'clear_cache' == 'syncsite', что поделать
 					if ($field == 'clear_cache'){
 						$setElem = '$j("input[name=\'syncsite\']")';
 					}else{
@@ -154,7 +154,7 @@ function mm_ddSetFieldValue($params){
 					}
 				break;
 				
-				//Признак отображения в меню
+				// Признак отображения в меню
 				case 'show_in_menu':
 					// Note these are reversed from what you'd think
 					$setValue =
@@ -167,7 +167,7 @@ function mm_ddSetFieldValue($params){
 					$setElem = '$j("input[name=\'hidemenu\']")';
 				break;
 				
-				//Признак скрытия из меню (аналогично show_in_menu, только наоборот)
+				// Признак скрытия из меню (аналогично show_in_menu, только наоборот)
 				case 'hide_menu':
 					if ($setValue != '0'){
 						$setValue = '1';
@@ -179,7 +179,7 @@ function mm_ddSetFieldValue($params){
 					$setElem = '$j("input[name=\'hidemenu\']")';
 				break;
 				
-				//Признак использованшия визуального редактора
+				// Признак использованшия визуального редактора
 				case 'is_richtext':
 					$output .= 'var originalRichtextValue = $j("#which_editor:first").val();' . PHP_EOL;
 					
@@ -199,9 +199,9 @@ function mm_ddSetFieldValue($params){
 					$setElem = '$j("input[name=\'richtext\']")';
 				break;
 				
-				//Признак логирования
+				// Признак логирования
 				case 'log':
-					//Note these are reversed from what you'd think
+					// Note these are reversed from what you'd think
 					$setValue =
 						$setValue == '1' ?
 						'0' :
@@ -214,7 +214,7 @@ function mm_ddSetFieldValue($params){
 				break;
 			}
 			
-			//Если это чекбокс
+			// Если это чекбокс
 			if ($checkElem !== false){
 				if ($checkValue){
 					$output .= $checkElem . '.attr("checked", "checked");' . PHP_EOL;
@@ -223,13 +223,13 @@ function mm_ddSetFieldValue($params){
 				}
 			}
 			
-			//Если нужно задавать значение
+			// Если нужно задавать значение
 			if ($setElem !== false){
 				$output .= $setElem . '.val("' . $setValue . '");' . PHP_EOL;
 			}
 		}
 		
-		$output .= '//---------- mm_ddSetFieldValue :: End -----' . PHP_EOL;
+		$output .= '// ---------- mm_ddSetFieldValue :: End -----' . PHP_EOL;
 		
 		$modx->Event->output($output);
 	}
